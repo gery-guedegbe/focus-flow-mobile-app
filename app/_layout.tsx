@@ -3,6 +3,10 @@ import { SplashScreen, Stack } from "expo-router";
 import { useEffect } from "react";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
+import "../styles/global.css";
+
+SplashScreen.preventAutoHideAsync();
+
 export default function RootLayout() {
   const [fontsLoaded, error] = useFonts({
     // Manrope

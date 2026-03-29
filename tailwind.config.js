@@ -7,7 +7,7 @@ module.exports = {
     extend: {
       fontFamily: {
         // Manrope
-        "manrope-regular": ["Poppins-Regular"],
+        "manrope-regular": ["Manrope-Regular"],
         "manrope-medium": ["Manrope-Medium"],
         "manrope-semibold": ["Manrope-SemiBold"],
         "manrope-bold": ["Manrope-Bold"],
