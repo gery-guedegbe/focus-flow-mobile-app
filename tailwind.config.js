@@ -11,6 +11,7 @@ module.exports = {
         "manrope-medium": ["Manrope-Medium"],
         "manrope-semibold": ["Manrope-SemiBold"],
         "manrope-bold": ["Manrope-Bold"],
+        "manrope-extrabold": ["Manrope-ExtraBold"],
         "manrope-light": ["Manrope-Light"],
         "manrope-extralight": ["Manrope-ExtraLight"],
 
@@ -23,11 +24,12 @@ module.exports = {
         "inter-extralight": ["Inter-ExtraLight"],
       },
       colors: {
-        primary: "#1A237E",
+        primary: { 1: "#1A237E", 2: "#000666", 3: "#1A1C1C", 4: "#8690EE" },
         secondary: "#7E57C2",
         secondary_container: "#B78EFE",
         tertiary: "#66BB6A",
         neutral: "#F5F5F5",
+        purple: "#6F48B2",
       },
     },
   },

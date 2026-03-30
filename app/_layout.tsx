@@ -14,6 +14,7 @@ export default function RootLayout() {
     "Manarope-Medium": require("../assets/fonts/manrope/Manrope-Medium.ttf"),
     "Manarope-SemiBold": require("../assets/fonts/manrope/Manrope-SemiBold.ttf"),
     "Manarope-Bold": require("../assets/fonts/manrope/Manrope-Bold.ttf"),
+    "Manrope-ExtraBold": require("../assets/fonts/manrope/Manrope-ExtraBold.ttf"),
     "Manarope-Light": require("../assets/fonts/manrope/Manrope-Light.ttf"),
     "Manarope-ExtraLight": require("../assets/fonts/manrope/Manrope-ExtraLight.ttf"),
 
