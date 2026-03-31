@@ -1,11 +1,108 @@
+import StartSession from "@/components/StartSession";
+import ScreenWrapper from "@/components/ui/ScreenWrapper";
+import { IMAGES } from "@/constants/images";
 import React from "react";
-import { Text, View } from "react-native";
+import { Image, ScrollView, Text, View } from "react-native";
 
 const FocusScreen = () => {
   return (
-    <View>
-      <Text>FocusScreen</Text>
-    </View>
+    <ScreenWrapper>
+      <ScrollView className="flex-1">
+        <View className="gap-12 px-6 pb-32">
+          <View className="gap-1.5">
+            <Text className="text-primary-2 font-manrope-extrabold w-[80%] text-left text-4xl font-extrabold leading-10">
+              Ready for deep work?
+            </Text>
+
+            <Text className="font-inter-regular w-[80%] text-left text-lg leading-8 text-[#454652]">
+              Your digital sanctuary is prepared. Choose your window of focus.
+            </Text>
+          </View>
+
+          <View className="flex flex-row items-center gap-4">
+            <View
+              style={{
+                boxShadow:
+                  "0 10px 30px 0 rgba(26, 35, 126, 0.05), 0 4px 8px 0 rgba(0, 0, 0, 0.02)",
+              }}
+              className="gap-3 rounded-[32px] bg-white p-6"
+            >
+              <View className="flex flex-1 flex-row items-center gap-2">
+                <Image
+                  source={IMAGES.streak_icon}
+                  resizeMode="contain"
+                  tintColor="#6F48B2"
+                  className="h-[20px] w-[20px]"
+                />
+
+                <Text className="font-inter-regular text-left  text-xs uppercase leading-4 tracking-widest text-[#454652]">
+                  Momentum
+                </Text>
+              </View>
+
+              <Text className="font-manrope-bold w-[70%] text-left text-2xl font-bold leading-8">
+                5 Day Streak!
+              </Text>
+
+              <Text className="font-inter-regular text-left text-sm leading-4 text-[#454652]">
+                Keep the flow alive
+              </Text>
+            </View>
+
+            <View className="flex-1 gap-3 rounded-[32px] bg-[#C6C5D4]/5 p-6">
+              <View className="flex flex-row items-center gap-2">
+                <Image
+                  source={IMAGES.session_green_icon}
+                  resizeMode="contain"
+                  className="h-[20px] w-[20px]"
+                />
+
+                <Text className="font-inter-regular text-left text-xs uppercase leading-4 tracking-widest text-[#454652]">
+                  Today
+                </Text>
+              </View>
+
+              <Text className="font-manrope-bold text-2xl font-bold leading-8 text-[#1A1C1C]">
+                2h 15m
+              </Text>
+
+              <View className="flex flex-row items-center gap-2">
+                <Image
+                  source={IMAGES.check_icon}
+                  resizeMode="contain"
+                  className="h-[12px] w-[12px]"
+                />
+
+                <Text className="font-inter-regular text-xs leading-4 text-[#454652]">
+                  4 Sessions
+                </Text>
+              </View>
+            </View>
+          </View>
+
+          <StartSession />
+
+          <View className="flex flex-row items-center justify-start gap-6 rounded-[32px] border border-[#9FF79F]/30 bg-[#9FF79F]/20 px-6 py-6">
+            <Image
+              source={IMAGES.design_section_image}
+              resizeMode="contain"
+              className="h-16 w-16"
+            />
+
+            <View className="w-[70%] gap-2">
+              <Text className="font-manrope-bold text-base font-bold leading-6 text-[#002105]">
+                Design your silence
+              </Text>
+
+              <Text className="font-inter-regular text-sm leading-[23px] text-[#005318]">
+                Researchers find that auditory focus improves when paired with
+                consistent environmental cues.
+              </Text>
+            </View>
+          </View>
+        </View>
+      </ScrollView>
+    </ScreenWrapper>
   );
 };
 

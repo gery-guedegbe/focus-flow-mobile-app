@@ -10,65 +10,67 @@ export default function InsightsScreen() {
     <ScreenWrapper>
       <ScrollView className="flex-1">
         <View className="gap-1 px-6 pb-32">
-          <Text className="font-inter-medium text-xs font-medium uppercase leading-[18px] text-[#454652]">
-            Daily Overview
-          </Text>
-
-          <Text className="text-primary-2 font-manrope-extrabold text-4xl font-extrabold leading-10">
-            Your Insights
-          </Text>
-
-          <View className="mt-4 rounded-[48px] bg-white p-10">
-            <Image
-              source={IMAGES.time_icon}
-              resizeMode="contain"
-              className="W-[25px] h-[25px]"
-            />
-
-            <Text className="text-primary-3 font-manrope-extrabold mt-4 text-5xl font-extrabold leading-[48px]">
-              4h 32m
+          <View className="gap-6">
+            <Text className="font-inter-medium text-xs font-medium uppercase leading-[18px] text-[#454652]">
+              Daily Overview
             </Text>
 
-            <Text className="font-inter-regular mt-0.5 text-sm uppercase leading-5 text-[#454652]">
-              Total Focus Time Today
+            <Text className="text-primary-2 font-manrope-extrabold text-4xl font-extrabold leading-10">
+              Your Insights
             </Text>
-          </View>
 
-          <View className="mt-4 flex w-full flex-row items-center justify-between gap-3">
-            <View className="w-1/2 gap-1.5 rounded-[32px] bg-[#F3F3F3] p-6">
+            <View className="rounded-[48px] bg-white p-10">
               <Image
-                source={IMAGES.session_icon}
+                source={IMAGES.time_icon}
                 resizeMode="contain"
-                className="W-[24px] h-[24px]"
+                className="h-[25px] w-[25px]"
               />
 
-              <Text className="font-manrope-bold text-primary-3 text-3xl font-bold leading-9">
-                12
+              <Text className="text-primary-3 font-manrope-extrabold mt-4 text-5xl font-extrabold leading-[48px]">
+                4h 32m
               </Text>
 
-              <Text className="font-inter-regular text-xs uppercase leading-4 text-[#454652]">
-                Sessions
+              <Text className="font-inter-regular mt-0.5 text-sm uppercase leading-5 tracking-widest text-[#454652]">
+                Total Focus Time Today
               </Text>
             </View>
 
-            <View className="w-1/2 gap-1.5 rounded-[32px] bg-[#F3F3F3] p-6">
-              <Image
-                source={IMAGES.flash_icon}
-                resizeMode="contain"
-                className="W-[24px] h-[24px]"
-              />
+            <View className="mt-4 flex w-full flex-row items-center justify-between gap-3">
+              <View className="w-1/2 gap-1.5 rounded-[32px] bg-[#F3F3F3] p-6">
+                <Image
+                  source={IMAGES.session_icon}
+                  resizeMode="contain"
+                  className="W-[24px] h-[24px]"
+                />
 
-              <Text className="font-manrope-bold text-primary-3 text-3xl font-bold leading-9">
-                85%
-              </Text>
+                <Text className="font-manrope-bold text-primary-3 text-3xl font-bold leading-9">
+                  12
+                </Text>
 
-              <Text className="font-inter-regular text-xs uppercase leading-4 text-[#454652]">
-                Efficiency
-              </Text>
+                <Text className="font-inter-regular text-xs uppercase leading-4 text-[#454652]">
+                  Sessions
+                </Text>
+              </View>
+
+              <View className="w-1/2 gap-1.5 rounded-[32px] bg-[#F3F3F3] p-6">
+                <Image
+                  source={IMAGES.flash_icon}
+                  resizeMode="contain"
+                  className="W-[24px] h-[24px]"
+                />
+
+                <Text className="font-manrope-bold text-primary-3 text-3xl font-bold leading-9">
+                  85%
+                </Text>
+
+                <Text className="font-inter-regular text-xs uppercase leading-4 text-[#454652]">
+                  Efficiency
+                </Text>
+              </View>
             </View>
           </View>
 
-          <View className="bg-primary-1 mt-4 flex w-full flex-row items-center justify-between rounded-[32px] p-6">
+          <View className="bg-primary-1 mt-6 flex w-full flex-row items-center justify-between rounded-[32px] p-6">
             <View className="gap-1.5">
               <Text className="font-manrope-bold w-[150px] text-2xl font-bold leading-8 text-white">
                 Deep Work Streak
