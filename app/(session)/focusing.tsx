@@ -27,8 +27,8 @@ const FocusingScreen = () => {
             </Text>
           </View>
 
-          <View className="border-primary-2 flex h-[288px] w-[288px] items-center justify-center gap-4 self-center rounded-full border-4">
-            <Text className="text-primary-2 font-manrope-extrabold text-6xl font-extrabold leading-[60px] tracking-[-3px]">
+          <View className="flex h-[288px] w-[288px] items-center justify-center gap-4 self-center rounded-full border-4 border-primary-2">
+            <Text className="font-manrope-extrabold text-6xl font-extrabold leading-[60px] tracking-[-3px] text-primary-2">
               24 : 59
             </Text>
 
@@ -40,7 +40,7 @@ const FocusingScreen = () => {
                 className="h-[12px] w-[12px]"
               />
 
-              <Text className="text-primary-3 font-inter-semibold text-xs font-semibold uppercase leading-3 tracking-[1.2px]">
+              <Text className="font-inter-semibold text-xs font-semibold uppercase leading-3 tracking-[1.2px] text-primary-3">
                 FOCUS ACTIVE
               </Text>
             </View>
@@ -62,7 +62,7 @@ const FocusingScreen = () => {
               </Text>
             </Pressable>
 
-            <Pressable className="bg-primary-1 flex h-16 flex-row items-center justify-center gap-3 rounded-full ">
+            <Pressable className="flex h-16 flex-row items-center justify-center gap-3 rounded-full bg-primary-1 ">
               <Image
                 source={IMAGES.stop_icon}
                 resizeMode="contain"
@@ -85,9 +85,9 @@ const FocusingScreen = () => {
             </View>
 
             <View className="flex w-[90%] flex-row items-center ">
-              <Text className="font-inter-regular text-left text-xs leading-[18px] text-[#454652]">
+              <Text className="text-left font-inter-regular text-xs leading-[18px] text-[#454652]">
                 You've stayed focused for{" "}
-                <Text className="text-primary-2 font-inter-semibold text-xs font-semibold">
+                <Text className="font-inter-semibold text-xs font-semibold text-primary-2">
                   124 minutes
                 </Text>{" "}
                 today. Keep the flow!
