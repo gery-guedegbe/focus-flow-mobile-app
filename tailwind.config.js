@@ -31,6 +31,9 @@ module.exports = {
         neutral: "#F5F5F5",
         purple: "#6F48B2",
       },
+      backgroundImage: {
+        "gradient-primary": "linear-gradient(135deg, #1A237E 0%, #000666 100%)",
+      },
     },
   },
   plugins: [],

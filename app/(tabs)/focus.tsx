@@ -10,11 +10,11 @@ const FocusScreen = () => {
       <ScrollView className="flex-1">
         <View className="gap-12 px-6 pb-32">
           <View className="gap-1.5">
-            <Text className="text-primary-2 font-manrope-extrabold w-[80%] text-left text-4xl font-extrabold leading-10">
+            <Text className="w-[80%] text-left font-manrope-extrabold text-4xl font-extrabold leading-10 text-primary-2">
               Ready for deep work?
             </Text>
 
-            <Text className="font-inter-regular w-[80%] text-left text-lg leading-8 text-[#454652]">
+            <Text className="w-[80%] text-left font-inter-regular text-lg leading-8 text-[#454652]">
               Your digital sanctuary is prepared. Choose your window of focus.
             </Text>
           </View>
@@ -35,16 +35,16 @@ const FocusScreen = () => {
                   className="h-[20px] w-[20px]"
                 />
 
-                <Text className="font-inter-regular text-left  text-xs uppercase leading-4 tracking-widest text-[#454652]">
+                <Text className="text-left font-inter-regular  text-xs uppercase leading-4 tracking-widest text-[#454652]">
                   Momentum
                 </Text>
               </View>
 
-              <Text className="font-manrope-bold w-[70%] text-left text-2xl font-bold leading-8">
+              <Text className="w-[70%] text-left font-manrope-bold text-2xl font-bold leading-8">
                 5 Day Streak!
               </Text>
 
-              <Text className="font-inter-regular text-left text-sm leading-4 text-[#454652]">
+              <Text className="text-left font-inter-regular text-sm leading-4 text-[#454652]">
                 Keep the flow alive
               </Text>
             </View>
@@ -57,7 +57,7 @@ const FocusScreen = () => {
                   className="h-[20px] w-[20px]"
                 />
 
-                <Text className="font-inter-regular text-left text-xs uppercase leading-4 tracking-widest text-[#454652]">
+                <Text className="text-left font-inter-regular text-xs uppercase leading-4 tracking-widest text-[#454652]">
                   Today
                 </Text>
               </View>

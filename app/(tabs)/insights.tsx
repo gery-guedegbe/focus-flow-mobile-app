@@ -3,9 +3,12 @@ import ScreenWrapper from "@/components/ui/ScreenWrapper";
 import WeeklyConsistency from "@/components/WeeklyConsistency";
 import { RECENT_SESSIONS_DATA } from "@/constants/data";
 import { IMAGES } from "@/constants/images";
+import { useRouter } from "expo-router";
 import { Image, Pressable, ScrollView, Text, View } from "react-native";
 
 export default function InsightsScreen() {
+  const router = useRouter();
+
   return (
     <ScreenWrapper>
       <ScrollView className="flex-1">
@@ -15,7 +18,7 @@ export default function InsightsScreen() {
               Daily Overview
             </Text>
 
-            <Text className="text-primary-2 font-manrope-extrabold text-4xl font-extrabold leading-10">
+            <Text className="font-manrope-extrabold text-4xl font-extrabold leading-10 text-primary-2">
               Your Insights
             </Text>
 
@@ -26,11 +29,11 @@ export default function InsightsScreen() {
                 className="h-[25px] w-[25px]"
               />
 
-              <Text className="text-primary-3 font-manrope-extrabold mt-4 text-5xl font-extrabold leading-[48px]">
+              <Text className="mt-4 font-manrope-extrabold text-5xl font-extrabold leading-[48px] text-primary-3">
                 4h 32m
               </Text>
 
-              <Text className="font-inter-regular mt-0.5 text-sm uppercase leading-5 tracking-widest text-[#454652]">
+              <Text className="mt-0.5 font-inter-regular text-sm uppercase leading-5 tracking-widest text-[#454652]">
                 Total Focus Time Today
               </Text>
             </View>
@@ -43,7 +46,7 @@ export default function InsightsScreen() {
                   className="W-[24px] h-[24px]"
                 />
 
-                <Text className="font-manrope-bold text-primary-3 text-3xl font-bold leading-9">
+                <Text className="font-manrope-bold text-3xl font-bold leading-9 text-primary-3">
                   12
                 </Text>
 
@@ -59,7 +62,7 @@ export default function InsightsScreen() {
                   className="W-[24px] h-[24px]"
                 />
 
-                <Text className="font-manrope-bold text-primary-3 text-3xl font-bold leading-9">
+                <Text className="font-manrope-bold text-3xl font-bold leading-9 text-primary-3">
                   85%
                 </Text>
 
@@ -70,13 +73,13 @@ export default function InsightsScreen() {
             </View>
           </View>
 
-          <View className="bg-primary-1 mt-6 flex w-full flex-row items-center justify-between rounded-[32px] p-6">
+          <View className="mt-6 flex w-full flex-row items-center justify-between rounded-[32px] bg-primary-1 p-6">
             <View className="gap-1.5">
-              <Text className="font-manrope-bold w-[150px] text-2xl font-bold leading-8 text-white">
+              <Text className="w-[150px] font-manrope-bold text-2xl font-bold leading-8 text-white">
                 Deep Work Streak
               </Text>
 
-              <Text className="text-primary-4 font-inter-regular w-[150px] text-sm leading-5">
+              <Text className="w-[150px] font-inter-regular text-sm leading-5 text-primary-4">
                 You are on fire! 5 days in a row.
               </Text>
             </View>
@@ -96,12 +99,15 @@ export default function InsightsScreen() {
 
           <View className="mt-8 gap-8">
             <View className="flex w-full flex-row items-center justify-between">
-              <Text className="text-primary-3 font-manrope-bold text-xl font-bold leading-7">
+              <Text className="font-manrope-bold text-xl font-bold leading-7 text-primary-3">
                 Recent Sessions
               </Text>
 
-              <Pressable hitSlop={18}>
-                <Text className="text-purple font-inter-semibold text-sm font-semibold leading-5">
+              <Pressable
+                hitSlop={18}
+                onPress={() => router.push("/recent-sessions")}
+              >
+                <Text className="font-inter-semibold text-sm font-semibold leading-5 text-purple">
                   View All
                 </Text>
               </Pressable>
@@ -112,6 +118,7 @@ export default function InsightsScreen() {
                 <RecentSessionItem
                   key={item.id}
                   title={item.title}
+                  date={item.date}
                   duration={item.duration}
                   time={item.time}
                   status={item.status}
