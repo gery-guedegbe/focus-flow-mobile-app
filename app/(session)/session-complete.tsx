@@ -1,5 +1,6 @@
 import ScreenWrapper from "@/components/ui/ScreenWrapper";
 import { IMAGES } from "@/constants/images";
+import { useSessionStore } from "@/store/store";
 import { useRouter } from "expo-router";
 import React from "react";
 import { Image, Pressable, ScrollView, Text, View } from "react-native";
@@ -7,14 +8,51 @@ import { Image, Pressable, ScrollView, Text, View } from "react-native";
 const SessionCompleteScreen = () => {
   const router = useRouter();
 
+  const { sessions } = useSessionStore();
+
+  const lastSession = sessions[0];
+
+  // Durée réelle en minutes
+  const realMinutes = lastSession.endTime
+    ? Math.ceil((lastSession.endTime - lastSession.startTime) / 60000)
+    : lastSession.duration;
+
+  // Efficiency = temps réel / temps prévu * 100
+  const efficiency = Math.min(
+    100,
+    Math.round((realMinutes / lastSession.duration) * 100),
+  );
+
+  // Streak = compter les jours consécutifs avec sessions
+  const sortedSessions = [...sessions].sort(
+    (a, b) => b.startTime - a.startTime,
+  );
+
+  let streak = 0;
+  let today = new Date();
+  for (let i = 0; i < sortedSessions.length; i++) {
+    const sessionDate = new Date(sortedSessions[i].startTime);
+    const diff = Math.floor(
+      (today.getTime() - sessionDate.getTime()) / (1000 * 60 * 60 * 24),
+    );
+    if (diff === streak) {
+      streak++;
+    } else {
+      break;
+    }
+  }
+
+  // Focus Score = efficiency * streak factor (simplifié)
+  const focusScore = Math.min(100, Math.round(efficiency * (streak / 7)));
+
   return (
     <ScreenWrapper
       title="Session Complete"
       icon={IMAGES.close_icon}
       onIconPress={() => router.replace("/focus")}
     >
-      <ScrollView className="flex-1">
-        <View className="gap-12 px-6 pb-10">
+    <ScrollView className="flex-1">
+      <View className="gap-12 px-6 pb-10">
           <View className="relative flex items-center gap-8">
             {/* <View className="absolute -top-12 left-4 h-[292px] w-[292px] self-center rounded-full bg-[#9FF79F]/20 blur-[32px]" /> */}
 
@@ -52,11 +90,11 @@ const SessionCompleteScreen = () => {
           >
             <View className="gap-2">
               <Text className="font-inter-semibold text-xs font-semibold uppercase leading-4 tracking-[1.2px] text-[#454652]">
-                Time focused
+                {lastSession.title}
               </Text>
 
               <Text className="font-manrope-bold text-[36px] font-bold leading-10 text-primary-2">
-                45 : 00
+                {lastSession.duration}
               </Text>
 
               <View className="flex flex-row items-center gap-2">
@@ -88,7 +126,7 @@ const SessionCompleteScreen = () => {
                 />
 
                 <Text className="w-[60%] font-manrope-bold text-[20px] font-bold leading-6 text-primary-3">
-                  5 Day Streak Maintained!
+                  {streak} Day Streak Maintained!
                 </Text>
               </View>
             </View>
@@ -102,7 +140,7 @@ const SessionCompleteScreen = () => {
 
               <View className="flex flex-row items-end gap-1">
                 <Text className="font-manrope-bold text-2xl font-bold leading-8 text-primary-3">
-                  92
+                  {efficiency}
                 </Text>
 
                 <Text className="font-manrope-medium text-sm font-medium leading-5 text-[#454652]">
@@ -118,7 +156,7 @@ const SessionCompleteScreen = () => {
 
               <View className="flex flex-row items-end gap-1">
                 <Text className="font-manrope-bold text-2xl font-bold leading-8 text-primary-3">
-                  85
+                  {focusScore}
                 </Text>
 
                 <Text className="font-manrope-medium text-sm font-medium leading-5 text-[#454652]">

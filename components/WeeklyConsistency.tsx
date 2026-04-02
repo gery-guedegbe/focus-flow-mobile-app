@@ -1,31 +1,49 @@
+import { useSessionStore } from "@/store/store";
 import React from "react";
 import { Text, View } from "react-native";
 
-const WEEKLY_DATA = [
-  { id: "1", day: "M", percentage: 50 },
-  { id: "2", day: "T", percentage: 74 },
-  { id: "3", day: "W", percentage: 94 },
-  { id: "4", day: "T", percentage: 38 },
-  { id: "5", day: "F", percentage: 50 },
-  { id: "6", day: "S", percentage: 32 },
-  { id: "7", day: "S", percentage: 45 },
-];
+const DAYS = ["S", "M", "T", "W", "T", "F", "S"];
 
 const WeeklyConsistency = () => {
+  const { sessions } = useSessionStore();
+
+  // Calculer le pourcentage de focus par jour
+  const today = new Date();
+
+  const weeklyData = DAYS.map((day, index) => {
+    const targetDate = new Date(today);
+    targetDate.setDate(today.getDate() - (today.getDay() - index));
+
+    const daySessions = sessions.filter(
+      (s) => new Date(s.startTime).toDateString() === targetDate.toDateString(),
+    );
+
+    const totalMinutes = daySessions.reduce((acc, s) => {
+      const duration = s.endTime
+        ? (s.endTime - s.startTime) / 60000
+        : s.duration;
+      return acc + duration;
+    }, 0);
+
+    // Pourcentage basé sur un objectif de 60 min par jour
+    const percentage = Math.min(Math.round((totalMinutes / 60) * 100), 100);
+    return { day, percentage };
+  });
+
   return (
     <View className="mt-10 flex flex-col items-start justify-center gap-8 rounded-[48px] bg-white p-10">
-      <Text className="text-primary-3 font-manrope-bold mt-2 text-lg font-bold leading-7">
+      <Text className="mt-2 font-manrope-bold text-lg font-bold leading-7 text-primary-3">
         WeeklyConsistency
       </Text>
 
       <View className="flex w-full flex-row items-end justify-between">
-        {WEEKLY_DATA.map((item) => (
+        {weeklyData.map((item, idx) => (
           <View
-            key={item.id}
+            key={idx}
             className="flex flex-col items-center justify-start gap-4"
           >
             <View
-              style={{ height: item.percentage }}
+              style={{ height: item.percentage * 1.2 }}
               className={`w-[12px] rounded-full ${item.percentage > 80 ? "bg-[#1A237E]" : item.percentage > 50 ? "bg-[#B78EFE]" : "bg-[#E8E8E8]"}`}
             ></View>
 
@@ -36,7 +54,7 @@ const WeeklyConsistency = () => {
         ))}
       </View>
 
-      <Text className="font-inter-regular text-center text-sm leading-5 text-[#454652]">
+      <Text className="text-center font-inter-regular text-sm leading-5 text-[#454652]">
         "You focused 12% more than last Wednesday."
       </Text>
     </View>

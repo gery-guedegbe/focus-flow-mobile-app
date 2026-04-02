@@ -1,13 +1,50 @@
 import RecentSessionItem from "@/components/RecentSessionItem";
 import ScreenWrapper from "@/components/ui/ScreenWrapper";
 import WeeklyConsistency from "@/components/WeeklyConsistency";
-import { RECENT_SESSIONS_DATA } from "@/constants/data";
 import { IMAGES } from "@/constants/images";
+import { useSessionStore } from "@/store/store";
+import { calculateStreak, getTodayStats } from "@/utils/stats";
+import { formatDuration } from "@/utils/time";
 import { useRouter } from "expo-router";
 import { Image, Pressable, ScrollView, Text, View } from "react-native";
 
 export default function InsightsScreen() {
   const router = useRouter();
+
+  const { sessions } = useSessionStore();
+
+  const recentSessions = [...sessions].sort(
+    (a, b) => b.startTime - a.startTime,
+  );
+
+  const getSessionIcon = (session: { completed: boolean; title: string }) => {
+    if (session.completed) return IMAGES.envelope_icon;
+    if (!session.completed) return IMAGES.laptop_icon;
+    // Optionnel : tu peux faire une règle selon le titre ou autre
+    if (session.title.toLowerCase().includes("laptop"))
+      return IMAGES.laptop_icon;
+    return IMAGES.flash_icon;
+  };
+
+  const todayStats = getTodayStats(sessions);
+  const streak = calculateStreak(sessions);
+
+  const totalMs = todayStats.totalTime * 60 * 1000;
+
+  const formattedTime = formatDuration(todayStats.totalTime);
+
+  const lastSession = sessions[0];
+
+  // Durée réelle en minutes
+  const realMinutes = lastSession.endTime
+    ? Math.ceil((lastSession.endTime - lastSession.startTime) / 60000)
+    : lastSession.duration;
+
+  // Efficiency = temps réel / temps prévu * 100
+  const efficiency = Math.min(
+    100,
+    Math.round((realMinutes / lastSession.duration) * 100),
+  );
 
   return (
     <ScreenWrapper>
@@ -30,7 +67,7 @@ export default function InsightsScreen() {
               />
 
               <Text className="mt-4 font-manrope-extrabold text-5xl font-extrabold leading-[48px] text-primary-3">
-                4h 32m
+                {formattedTime}
               </Text>
 
               <Text className="mt-0.5 font-inter-regular text-sm uppercase leading-5 tracking-widest text-[#454652]">
@@ -47,7 +84,7 @@ export default function InsightsScreen() {
                 />
 
                 <Text className="font-manrope-bold text-3xl font-bold leading-9 text-primary-3">
-                  12
+                  {sessions.length}
                 </Text>
 
                 <Text className="font-inter-regular text-xs uppercase leading-4 text-[#454652]">
@@ -63,7 +100,7 @@ export default function InsightsScreen() {
                 />
 
                 <Text className="font-manrope-bold text-3xl font-bold leading-9 text-primary-3">
-                  85%
+                  {efficiency}%
                 </Text>
 
                 <Text className="font-inter-regular text-xs uppercase leading-4 text-[#454652]">
@@ -92,7 +129,7 @@ export default function InsightsScreen() {
               />
 
               <Text className="font-manrope-bold text-xl font-bold leading-7 text-white">
-                5
+                {streak}
               </Text>
             </View>
           </View>
@@ -114,15 +151,20 @@ export default function InsightsScreen() {
             </View>
 
             <View className="gap-6">
-              {RECENT_SESSIONS_DATA.map((item) => (
+              {recentSessions.map((session) => (
                 <RecentSessionItem
-                  key={item.id}
-                  title={item.title}
-                  date={item.date}
-                  duration={item.duration}
-                  time={item.time}
-                  status={item.status}
-                  icon={item.icon}
+                  key={session.id}
+                  title={session.title}
+                  date={session.startTime}
+                  duration={Math.ceil(
+                    (session.endTime! - session.startTime) / 60000,
+                  )}
+                  time={new Date(session.startTime).toLocaleTimeString([], {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}
+                  status={session.completed ? "complete" : "partial"}
+                  icon={getSessionIcon(session)}
                 />
               ))}
             </View>

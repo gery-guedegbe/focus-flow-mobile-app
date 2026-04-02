@@ -9,7 +9,7 @@ const TabBarIcon = ({ focused, icon, title }: TabBarIconProps) => (
     className={`mt-10 flex min-h-full min-w-28 flex-row items-center justify-center gap-2 rounded-full py-4 ${
       focused ? "bg-primary-1" : "bg-transparent"
     }`}
-    style={{ alignSelf: "center" }}
+    // style={{ alignSelf: "center" }}
   >
     <Image
       source={icon}
@@ -34,7 +34,7 @@ const TabLayout = () => {
         tabBarShowLabel: false,
         tabBarStyle: {
           position: "absolute",
-          bottom: 25,
+          bottom: 30,
           marginHorizontal: 20,
           height: 70,
           borderRadius: 35,

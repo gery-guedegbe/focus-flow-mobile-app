@@ -5,9 +5,9 @@ import { Image, ImageSourcePropType, Text, View } from "react-native";
 interface RecentSessionItemProps {
   title: string;
   time: string;
-  duration: string;
+  duration: number;
   status: string;
-  date?: string;
+  date?: number;
   icon: ImageSourcePropType;
 }
 

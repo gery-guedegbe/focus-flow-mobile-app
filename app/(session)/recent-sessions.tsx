@@ -1,7 +1,7 @@
 import RecentSessionItem from "@/components/RecentSessionItem";
 import ScreenWrapper from "@/components/ui/ScreenWrapper";
-import { RECENT_SESSIONS_DATA } from "@/constants/data";
 import { IMAGES } from "@/constants/images";
+import { useSessionStore } from "@/store/store";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
 import React from "react";
@@ -9,6 +9,21 @@ import { Image, Pressable, ScrollView, Text, View } from "react-native";
 
 const RecentSessionsScreen = () => {
   const router = useRouter();
+
+  const { sessions } = useSessionStore();
+
+  const recentSessions = [...sessions].sort(
+    (a, b) => b.startTime - a.startTime,
+  );
+
+  const getSessionIcon = (session: { completed: boolean; title: string }) => {
+    if (session.completed) return IMAGES.envelope_icon;
+    if (!session.completed) return IMAGES.laptop_icon;
+    // Optionnel : tu peux faire une règle selon le titre ou autre
+    if (session.title.toLowerCase().includes("laptop"))
+      return IMAGES.laptop_icon;
+    return IMAGES.flash_icon;
+  };
 
   return (
     <ScreenWrapper
@@ -58,15 +73,20 @@ const RecentSessionsScreen = () => {
             </Text>
 
             <View className="gap-6">
-              {RECENT_SESSIONS_DATA.map((item) => (
+              {recentSessions.map((session) => (
                 <RecentSessionItem
-                  key={item.id}
-                  title={item.title}
-                  date={item.date}
-                  duration={item.duration}
-                  time={item.time}
-                  status={item.status}
-                  icon={item.icon}
+                  key={session.id}
+                  title={session.title}
+                  date={session.startTime}
+                  duration={Math.ceil(
+                    (session.endTime! - session.startTime) / 60000,
+                  )}
+                  time={new Date(session.startTime).toLocaleTimeString([], {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}
+                  status={session.completed ? "complete" : "partial"}
+                  icon={getSessionIcon(session)}
                 />
               ))}
             </View>

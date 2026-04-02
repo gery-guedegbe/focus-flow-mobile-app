@@ -1,4 +1,5 @@
 import { IMAGES } from "@/constants/images";
+import { useSessionStore } from "@/store/store";
 import { useRouter } from "expo-router";
 import React, { useState } from "react";
 import { Image, Pressable, Text, TextInput, View } from "react-native";
@@ -7,6 +8,11 @@ const StartSession = () => {
   const router = useRouter();
   const [title, setTitle] = useState("");
   const [duration, setDuration] = useState(45);
+  const [loading, setLoading] = useState(false);
+
+  const { startSession } = useSessionStore();
+
+  const isDisabled = duration <= 0;
 
   return (
     <View
@@ -21,13 +27,13 @@ const StartSession = () => {
           Session Goal
         </Text>
 
-        <View className="focus:border-primary-2 w-full flex-row items-center justify-center border-b border-transparent">
+        <View className="w-full flex-row items-center justify-center border-b border-transparent focus:border-primary-2">
           <TextInput
             value={title}
             onChangeText={setTitle}
             placeholder="Nommer votre session..."
             placeholderTextColor="#CBD5E1"
-            className="font-manrope-bold text-primary-1  text-center text-2xl"
+            className="text-center font-manrope-bold  text-2xl text-primary-1"
             maxLength={30}
             returnKeyType="done"
           />
@@ -41,13 +47,13 @@ const StartSession = () => {
         }}
         className="flex h-[192px] w-[192px] items-center justify-center rounded-full border-4 border-[#F3F3F3]"
       >
-        <Text className="font-manrope-extrabold text-primary-2 text-[60px] font-extrabold leading-[60px] tracking-[-3px]">
-          00
+        <Text className="font-manrope-extrabold text-[60px] font-extrabold leading-[60px] tracking-[-3px] text-primary-2">
+          {duration}
         </Text>
       </View>
 
       <View className="gap-6">
-        <Text className="font-inter-regular text-center text-xs uppercase leading-4 tracking-[1.2px] text-[#454652]">
+        <Text className="text-center font-inter-regular text-xs uppercase leading-4 tracking-[1.2px] text-[#454652]">
           Select Duration (min)
         </Text>
 
@@ -70,17 +76,28 @@ const StartSession = () => {
       </View>
 
       <Pressable
-        onPress={() =>
-          router.push({
-            pathname: "/(session)/focusing",
-            params: { duration: duration, title: title || "Focus Session" },
-          })
-        }
+        onPress={() => {
+          if (isDisabled) return;
+
+          setLoading(true);
+
+          const sessionTitle = title.trim() || `Focus ${duration}min`;
+
+          startSession(sessionTitle, duration);
+
+          setTitle(""); // reset UX
+
+          router.push("/(session)/focusing");
+
+          setLoading(false);
+        }}
         style={{
           boxShadow:
             "0 20px 25px -5px rgba(0, 0, 0, 0.10), 0 8px 10px -6px rgba(0, 0, 0, 0.10)",
         }}
-        className="bg-primary-1 flex flex-row items-center gap-3 rounded-full px-[48px] py-[20px]"
+        className={`flex flex-row items-center gap-3 rounded-full bg-primary-1 px-[48px] py-[20px] ${
+          isDisabled ? "bg-gray-300" : "bg-primary-1"
+        }`}
       >
         <Image
           source={IMAGES.play_icon}
@@ -89,7 +106,7 @@ const StartSession = () => {
         />
 
         <Text className="font-manrope-bold text-[20px] font-bold leading-7 text-white">
-          Start Session
+          {loading ? "Starting..." : "Start Session"}
         </Text>
       </Pressable>
     </View>

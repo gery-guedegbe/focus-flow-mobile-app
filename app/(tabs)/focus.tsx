@@ -1,10 +1,23 @@
 import StartSession from "@/components/StartSession";
 import ScreenWrapper from "@/components/ui/ScreenWrapper";
 import { IMAGES } from "@/constants/images";
+import { useSessionStore } from "@/store/store";
 import React from "react";
 import { Image, ScrollView, Text, View } from "react-native";
 
+import { calculateStreak, getTodayStats } from "@/utils/stats";
+import { formatDuration } from "@/utils/time";
+
 const FocusScreen = () => {
+  const { sessions } = useSessionStore();
+
+  const todayStats = getTodayStats(sessions);
+  const streak = calculateStreak(sessions);
+
+  const totalMs = todayStats.totalTime * 60 * 1000;
+
+  const formattedTime = formatDuration(todayStats.totalTime);
+
   return (
     <ScreenWrapper>
       <ScrollView className="flex-1">
@@ -41,7 +54,7 @@ const FocusScreen = () => {
               </View>
 
               <Text className="w-[70%] text-left font-manrope-bold text-2xl font-bold leading-8">
-                5 Day Streak!
+                {streak} Day Streak!
               </Text>
 
               <Text className="text-left font-inter-regular text-sm leading-4 text-[#454652]">
@@ -63,7 +76,7 @@ const FocusScreen = () => {
               </View>
 
               <Text className="font-manrope-bold text-2xl font-bold leading-8 text-[#1A1C1C]">
-                2h 15m
+                {formattedTime}
               </Text>
 
               <View className="flex flex-row items-center gap-2">
@@ -74,7 +87,7 @@ const FocusScreen = () => {
                 />
 
                 <Text className="font-inter-regular text-xs leading-4 text-[#454652]">
-                  4 Sessions
+                  {todayStats.count} Sessions
                 </Text>
               </View>
             </View>

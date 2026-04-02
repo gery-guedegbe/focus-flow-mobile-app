@@ -1,15 +1,44 @@
 import React from "react";
 
 import ScreenWrapper from "@/components/ui/ScreenWrapper";
-import { useLocalSearchParams, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 import { Image, Pressable, ScrollView, Text, View } from "react-native";
 
 import { IMAGES } from "@/constants/images";
 
-const FocusingScreen = () => {
-  const { title, duration } = useLocalSearchParams();
+import { useSessionTimer } from "@/hooks/useSessionTimer";
+import { useSessionStore } from "@/store/store";
+import { formatTime } from "@/utils/time";
 
+const FocusingScreen = () => {
   const router = useRouter();
+
+  const {
+    activeSession,
+    completeSession,
+    pauseSession,
+    resumeSession,
+    dailyMinutes,
+  } = useSessionStore();
+
+  const today = new Date().toISOString().split("T")[0];
+
+  const todayMinutes = dailyMinutes[today] || 0;
+
+  const { remaining } = useSessionTimer();
+
+  const handlePauseResume = () => {
+    if (activeSession?.isRunning) {
+      pauseSession();
+    } else {
+      resumeSession();
+    }
+  };
+
+  if (!activeSession) {
+    // router.replace("/focus");
+    return null;
+  }
 
   return (
     <ScreenWrapper title="Focusing...">
@@ -23,13 +52,13 @@ const FocusingScreen = () => {
             </Text>
 
             <Text className="font-manrope-regular text-sm leading-5 text-[#1A1C1C]/40">
-              {title}
+              {activeSession.title}
             </Text>
           </View>
 
           <View className="flex h-[288px] w-[288px] items-center justify-center gap-4 self-center rounded-full border-4 border-primary-2">
             <Text className="font-manrope-extrabold text-6xl font-extrabold leading-[60px] tracking-[-3px] text-primary-2">
-              24 : 59
+              {formatTime(remaining)}
             </Text>
 
             <View className="flex flex-row items-center justify-center gap-1.5">
@@ -48,7 +77,7 @@ const FocusingScreen = () => {
 
           <View className="gap-6">
             <Pressable
-              onPress={() => router.push("/(session)/session-complete")}
+              onPress={handlePauseResume}
               className="flex h-16 flex-row items-center justify-center gap-3 rounded-full bg-[#E8E8E8] "
             >
               <Image
@@ -58,11 +87,17 @@ const FocusingScreen = () => {
               />
 
               <Text className="font-manrope-bold text-base font-bold leading-6 text-[#491D8A]">
-                Pause
+                {activeSession.isRunning ? "Pause" : "Resume"}
               </Text>
             </Pressable>
 
-            <Pressable className="flex h-16 flex-row items-center justify-center gap-3 rounded-full bg-primary-1 ">
+            <Pressable
+              onPress={() => {
+                completeSession();
+                router.replace("/(session)/session-complete");
+              }}
+              className="flex h-16 flex-row items-center justify-center gap-3 rounded-full bg-primary-1 "
+            >
               <Image
                 source={IMAGES.stop_icon}
                 resizeMode="contain"
@@ -88,7 +123,7 @@ const FocusingScreen = () => {
               <Text className="text-left font-inter-regular text-xs leading-[18px] text-[#454652]">
                 You've stayed focused for{" "}
                 <Text className="font-inter-semibold text-xs font-semibold text-primary-2">
-                  124 minutes
+                  {todayMinutes} minutes
                 </Text>{" "}
                 today. Keep the flow!
               </Text>
