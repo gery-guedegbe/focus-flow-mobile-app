@@ -1,9 +1,4 @@
-import {
-  cancelAllNotifications,
-  scheduleEndNotification,
-  showOngoingNotification,
-  showStartNotification,
-} from "@/services/notificationService";
+import { cancelAllNotifications } from "@/services/notificationService";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { create } from "zustand";
@@ -62,9 +57,9 @@ export const useSessionStore = create<Store>()(
         });
 
         // 🔔 Notifications
-        await showStartNotification(title, duration);
-        await showOngoingNotification(title);
-        await scheduleEndNotification(duration);
+        // await showStartNotification(title, duration);
+        // await showOngoingNotification(title);
+        // await scheduleEndNotification(duration);
       },
 
       pauseSession: () => {
@@ -138,7 +133,7 @@ export const useSessionStore = create<Store>()(
       stopSession: () => set({ activeSession: null }),
 
       reset: async () => {
-        await cancelAllNotifications();
+        // await cancelAllNotifications();
         set({ sessions: [], activeSession: null });
       },
     }),
