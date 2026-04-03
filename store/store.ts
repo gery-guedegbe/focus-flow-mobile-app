@@ -1,3 +1,9 @@
+import {
+  cancelAllNotifications,
+  scheduleEndNotification,
+  showOngoingNotification,
+  showStartNotification,
+} from "@/services/notificationService";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { create } from "zustand";
@@ -43,7 +49,7 @@ export const useSessionStore = create<Store>()(
       activeSession: null,
       dailyMinutes: {},
 
-      startSession: (title, duration) => {
+      startSession: async (title, duration) => {
         const id = Date.now().toString();
         set({
           activeSession: {
@@ -54,6 +60,11 @@ export const useSessionStore = create<Store>()(
             isRunning: true,
           },
         });
+
+        // 🔔 Notifications
+        await showStartNotification(title, duration);
+        await showOngoingNotification(title);
+        await scheduleEndNotification(duration);
       },
 
       pauseSession: () => {
@@ -89,9 +100,11 @@ export const useSessionStore = create<Store>()(
         });
       },
 
-      completeSession: () => {
+      completeSession: async () => {
         const { activeSession, sessions, dailyMinutes } = get();
         if (!activeSession) return;
+
+        await cancelAllNotifications();
 
         const endTime = Date.now();
         const elapsedSeconds = Math.floor(
@@ -124,7 +137,10 @@ export const useSessionStore = create<Store>()(
 
       stopSession: () => set({ activeSession: null }),
 
-      reset: () => set({ sessions: [], activeSession: null }),
+      reset: async () => {
+        await cancelAllNotifications();
+        set({ sessions: [], activeSession: null });
+      },
     }),
     {
       name: "focus-storage",

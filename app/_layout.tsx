@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import { COLORS } from "@/constants/theme";
+import { requestNotificationPermission } from "@/services/notificationService";
 import { StatusBar } from "expo-status-bar";
 import "../styles/global.css";
 
@@ -39,6 +40,10 @@ export default function RootLayout() {
       SplashScreen.hideAsync();
     }
   }, [fontsLoaded, error]);
+
+  useEffect(() => {
+    requestNotificationPermission();
+  }, []);
 
   if (!fontsLoaded) {
     return null;
